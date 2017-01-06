@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">TicketSystem</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="password">haslo</string>
+    <string name="login">login</string>
+    <string name="general_hint">Stwórz nowe konto</string>
+    <string name="epmty_login">Login nie może być pusty</string>
+    <string name="pswrd_empty">Hasło nie może być puste</string>
+    <string name="fail">Błąd logowania</string>
+    <string name="fail_file_load">Nie udało sie wczytac pliku</string>
+    <string name="title_activity_data_processing">DataProcessingActivity</string>
+    <string name="creating_acc">Tworze konto</string>
+    <string name="title_activity_customer">CustomerActivity</string>
+    <string name="title_activity_music_band">MusicBandActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="create_account">Create Account</string>
+    <string name="create_account_hint">Not registrated yet?</string>
+    <string name="login_hint">Have an account?</string>
+    <string name="log_out">Log Out</string>
 </resources>

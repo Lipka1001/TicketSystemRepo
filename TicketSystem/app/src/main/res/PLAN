@@ -1,0 +1,4 @@
+
+1. Skonwertowac SQLlite na DAO ( dostaniemy gotowe klasy reprezentujace encje)
+2. Zbudowac widoki (xml)  zgodnie ze schematem aplikacji
+3. Podpiac logike do widokow ( activites )
