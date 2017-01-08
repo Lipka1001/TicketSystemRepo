@@ -15,7 +15,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".CustomerActivity"
             android:label="@string/title_activity_customer" />
@@ -24,7 +30,8 @@
             android:label="@string/title_activity_music_band" />
         <activity
             android:name=".SignupActivity"
-            android:label="@string/title_activity_signup"></activity>
+            android:label="@string/title_activity_signup" />
+        <activity android:name=".AddItemActivity"></activity>
     </application>
 
 </manifest>

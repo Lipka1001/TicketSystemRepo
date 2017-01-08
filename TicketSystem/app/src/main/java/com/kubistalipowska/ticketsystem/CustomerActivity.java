@@ -29,8 +29,10 @@ public class CustomerActivity extends Activity {
                 logOut();
             }
         });
+        ticketsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
+                "data2"}));
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        TabHost host = (TabHost)findViewById(R.id.tabHost1);
         host.setup();
 
         //Tab 1
@@ -39,8 +41,7 @@ public class CustomerActivity extends Activity {
         spec.setIndicator("My Tickets");
         host.addTab(spec);
 
-        ticketsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
-                "data2"}));
+
 
         //Tab 2
         spec = host.newTabSpec("Tab Two");

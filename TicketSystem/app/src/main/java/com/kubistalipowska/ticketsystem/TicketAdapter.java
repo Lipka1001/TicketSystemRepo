@@ -44,10 +44,11 @@ class TicketAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         View vi = convertView;
-        if (vi == null)
+        if (vi == null) {
             vi = inflater.inflate(R.layout.tictek_item, null);
-        TextView text = (TextView) vi.findViewById(R.id.text);
-        text.setText(data[position]);
+            TextView text = (TextView) vi.findViewById(R.id.tv_ticket_title);
+            text.setText(data[position]);
+        }
         return vi;
     }
 }

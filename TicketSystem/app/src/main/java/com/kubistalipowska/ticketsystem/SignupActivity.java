@@ -50,6 +50,8 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
 
+
+/*    no database yet
         if (!validate()) {
             onSignupFailed();
             return;
@@ -68,6 +70,8 @@ public class SignupActivity extends AppCompatActivity {
         DatabaseAccess.getInstance(this).setUser(login);
         CustomUtils.hideKeyboard(this);
 
+
+        */
         onSignupSuccess();
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.kubistalipowska.ticketsystem.MusicBandActivity">
+    tools:context="com.kubistalipowska.ticketsystem.MusicBandActivity"
+    android:orientation="vertical">
 
     <TabHost
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
         android:id="@+id/tabHost"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +25,9 @@
             android:orientation="vertical">
 
             <TabWidget
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TabWidget>
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"/>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -32,16 +35,27 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tabTickets"
+                    android:id="@+id/tabCrew"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <ListView
-                        android:id="@+id/listViewConcerts"
+                        android:id="@+id/listViewCrew"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
                     </ListView>
+
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_add_crew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:padding="12dp"
+                        android:text="Add crew member"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -50,16 +64,94 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <ListView
+                        android:id="@+id/listViewConcerts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                    </ListView>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_add_concert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:padding="12dp"
+                        android:text="Add crew member"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tabPlaylists"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <ExpandableListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/expandableListViewPlayLists" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_add_playlist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:padding="12dp"
+                        android:text="Add crew member"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tabPlate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ExpandableListView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/expandableListViewPlates" />
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_add_plate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:padding="12dp"
+                        android:text="Add crew member"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tabSongs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listViewSongs"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                    </ListView>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_add_song"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:padding="12dp"
+                        android:text="Add crew member"/>
                 </LinearLayout>
 
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_back_log_out"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:padding="12dp"
         android:text="@string/log_out"/>
-</RelativeLayout>
+</LinearLayout>

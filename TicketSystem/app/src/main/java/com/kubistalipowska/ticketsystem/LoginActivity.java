@@ -126,7 +126,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-                this.finish();
+
+                onLoginSuccess();
             }
         }
     }
@@ -141,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(true);
         // narazie odrazu do widze, trzeba dorobic mechanizm rozpoznowania kto sie chce zalogowac
 
-        Intent intent = new Intent(getApplicationContext(), CustomerActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MusicBandActivity.class);
         startActivity(intent);
         finish();
     }
