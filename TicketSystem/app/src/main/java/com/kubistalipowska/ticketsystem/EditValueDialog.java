@@ -2,11 +2,15 @@ package com.kubistalipowska.ticketsystem;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.kubistalipowska.ticketsystem.entities.ItemEntity;
 
 public class EditValueDialog extends Dialog implements
         android.view.View.OnClickListener {
@@ -14,13 +18,17 @@ public class EditValueDialog extends Dialog implements
     public Context c;
     public Dialog d;
     public Button yes, no;
+    public EditText et;
+    ItemEntity item;
+    String table_name;
+    String old_value;
 
-    public EditValueDialog(Context a) {
+    public EditValueDialog(Context a,ItemEntity item, String table_name) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
-
-
+        this.table_name = table_name;
+        this.item = item;
     }
 
     @Override
@@ -39,7 +47,10 @@ public class EditValueDialog extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add_item_confirm:
-                dismiss();
+                ContentValues cv = new ContentValues();
+                cv.put(item.getFielnd_name(),et.getText().toString());
+                DatabaseAccess.getInstance(c).update(table_name,cv,item.getValue());
+                        dismiss();
                 break;
             case R.id.btn_add_item_cancel:
                 dismiss();

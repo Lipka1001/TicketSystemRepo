@@ -6,6 +6,8 @@ package com.kubistalipowska.ticketsystem;
         import android.database.sqlite.SQLiteOpenHelper;
         import android.util.Log;
 
+        import com.kubistalipowska.ticketsystem.entities.ItemEntity;
+
         import java.util.ArrayList;
         import java.util.List;
 
@@ -16,6 +18,7 @@ public class DatabaseAccess {
     public static final String TABLE_ACCOUNTS = "UZYTKOWNIK";
     public static final String FIELD_LOGIN = "login";
     public static final String FIELD_PASSWORD = "haslo";
+    public static final String TABLE_SONGS = "UTWOR";
 
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
@@ -68,6 +71,13 @@ public class DatabaseAccess {
     public int insert(String table, ContentValues values) {
         open();
         database.insert(table, null, values);
+        close();
+        return 0;
+    }
+
+    public int update(String table, ContentValues values,String old_value) {
+        open();
+        database.update(table, values, "_id=" + old_value,null);
         close();
         return 0;
     }
@@ -169,6 +179,29 @@ public class DatabaseAccess {
     }
 
 
+    public ArrayList<ItemEntity[]> getItems(String table) {
+        ArrayList<ItemEntity[]> result = new ArrayList<>();
+        ItemEntity[] items;
+        open();
+
+        Cursor cursor =  database.rawQuery("select * from " + table, null);
+
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            items = new ItemEntity[cursor.getColumnCount()];
+            while (!cursor.isAfterLast()) {
+                for(int i = 0; i < items.length; i++){
+                    items[i] = new ItemEntity(cursor.getColumnName(i),cursor.getString(i));
+                }
+                result.add(items);
+                cursor.moveToNext();
+            }
+        }
 
 
+        cursor.close();
+
+        close();
+        return result;
+    }
 }
