@@ -13,9 +13,9 @@ public class DatabaseAccess {
     /*
      *  ALL FIELDS IN DATABASE
      */
-    public static final String TABLE_ACCOUNTS = "accounts";
-    public static final String FIELD_LOGIN = "";
-    public static final String FIELD_PASSWORD = "";
+    public static final String TABLE_ACCOUNTS = "UZYTKOWNIK";
+    public static final String FIELD_LOGIN = "login";
+    public static final String FIELD_PASSWORD = "haslo";
 
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;

@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // onLoginFailed();
                                     progressDialog.dismiss();
                                 }
-                            }, 1000);
+                            }, 10);
                 } else {
                     new android.os.Handler().postDelayed(
                             new Runnable() {
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // onLoginFailed();
                                     progressDialog.dismiss();
                                 }
-                            }, 1000);
+                            }, 1);
                 }
             } catch (Exception e) {
 
