@@ -36,7 +36,8 @@ public class MusicBandActivity extends Activity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     ExpandableListAdapter listAdapter;
-
+    String current_table;
+    TabHost host;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +87,7 @@ public class MusicBandActivity extends Activity {
             }
         });
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
         //Tab 1
@@ -141,15 +142,27 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Songs");
         host.addTab(spec);
 
-        songsListView.setAdapter(new CustomAdapter(this,DatabaseAccess.getInstance(this)
-                .getItems(DatabaseAccess.TABLE_SONGS),DatabaseAccess.TABLE_SONGS));
+        songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));
+
+   //     songsListView.getAdapter().notify();
 
 
     }
 
     private void addItem(View view) {
+        String table = "";
+        switch(host.getCurrentTab()){
+            case 0:
+                break;
+            case 4:
+                table = DatabaseAccess.TABLE_SONGS;
+                break;
+        }
                 Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
-                intent.putExtra("type",view.getId());
+              //  intent.putExtra("type",view.getId());
+                intent.putExtra("table",table);
+                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_SONG_NAME,DatabaseAccess.FIELD_SOND_LENGTH,DatabaseAccess.FIELD_GENRE});
                 startActivityForResult(intent, REQUEST_ADDITEM);
     }
 

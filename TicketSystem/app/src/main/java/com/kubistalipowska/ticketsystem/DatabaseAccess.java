@@ -19,6 +19,9 @@ public class DatabaseAccess {
     public static final String FIELD_LOGIN = "login";
     public static final String FIELD_PASSWORD = "haslo";
     public static final String TABLE_SONGS = "UTWOR";
+    public static final String FIELD_SONG_NAME = "NAZWA";
+    public static final String FIELD_SOND_LENGTH = "DLUGOSC";
+    public static final String FIELD_GENRE = "GATUNEK";
 
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
@@ -75,9 +78,9 @@ public class DatabaseAccess {
         return 0;
     }
 
-    public int update(String table, ContentValues values,String old_value) {
+    public int update(String table, ContentValues values,String id_field,String old_value) {
         open();
-        database.update(table, values, "_id=" + old_value,null);
+        database.update(table, values,id_field +  "='" + old_value + "'",null);
         close();
         return 0;
     }
@@ -93,7 +96,7 @@ public class DatabaseAccess {
      *  HERE ADD DAOS LIKE IN EXAMPLE
      */
 
-    /**
+     /**
      * Read all quotes from the database.
      *
      * @return a List of quotes
@@ -188,8 +191,8 @@ public class DatabaseAccess {
 
         if(cursor.getCount() > 0) {
             cursor.moveToFirst();
-            items = new ItemEntity[cursor.getColumnCount()];
             while (!cursor.isAfterLast()) {
+                items = new ItemEntity[cursor.getColumnCount()];
                 for(int i = 0; i < items.length; i++){
                     items[i] = new ItemEntity(cursor.getColumnName(i),cursor.getString(i));
                 }
