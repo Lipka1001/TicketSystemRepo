@@ -93,14 +93,14 @@ public class ExpandableListAdapter  extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.input_expandable_header);
-        lblListHeader.setOnClickListener(new View.OnClickListener() {
+       /* lblListHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditValueDialog cdd = new EditValueDialog(_context);
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.show();
             }
-        });
+        }); */
         lblListHeader.setFocusable(false);
         lblListHeader.setText(headerTitle);
 

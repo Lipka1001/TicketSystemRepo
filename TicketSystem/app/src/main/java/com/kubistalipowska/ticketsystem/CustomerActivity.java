@@ -29,8 +29,8 @@ public class CustomerActivity extends Activity {
                 logOut();
             }
         });
-        ticketsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
-                "data2"}));
+      /*  ticketsListView.setAdapter(new CustomAdapter(this, new String[]{"data1",
+                "data2"})); */
 
         TabHost host = (TabHost)findViewById(R.id.tabHost1);
         host.setup();
@@ -49,8 +49,8 @@ public class CustomerActivity extends Activity {
         spec.setIndicator("Concerts");
         host.addTab(spec);
 
-        concertsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
-                "data2"}));
+      /*  concertsListView.setAdapter(new CustomAdapter(this, new String[]{"data1",
+                "data2"})); */
 
     }
 

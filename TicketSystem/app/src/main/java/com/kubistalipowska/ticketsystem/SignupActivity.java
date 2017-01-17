@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.d(TAG, "Signup");
 
 
-/*    no database yet
+
         if (!validate()) {
             onSignupFailed();
             return;
@@ -69,9 +69,6 @@ public class SignupActivity extends AppCompatActivity {
         DatabaseAccess.getInstance(this).insert(DatabaseAccess.TABLE_ACCOUNTS, myCV);
         DatabaseAccess.getInstance(this).setUser(login);
         CustomUtils.hideKeyboard(this);
-
-
-        */
         onSignupSuccess();
     }
 

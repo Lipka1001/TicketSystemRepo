@@ -1,6 +1,7 @@
 package com.kubistalipowska.ticketsystem;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,9 @@ public class AddItemActivity extends Activity {
     @BindView(R.id.input_item_third) EditText etThird;
     @BindView(R.id.btn_add_item_confirm) Button btnConfirm;
     @BindView(R.id.btn_add_item_cancel) Button btnCancel;
+    private String[] keys ;
+    private String table;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +29,7 @@ public class AddItemActivity extends Activity {
 
         ButterKnife.bind(this);
 
+        keys = getIntent().getStringArrayExtra("keys");
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,15 +44,13 @@ public class AddItemActivity extends Activity {
             }
         });
 
-        int id  = getIntent().getIntExtra("id",0);
-        switch (id){
-            case R.id.btn_add_song:
-                etMain.setHint("Title");
-                etSecond.setHint("Length");
-                etThird.setHint("Genre");
-                break;
-            // TODO zaimplementowac reszte
-        }
+
+        table  = getIntent().getStringExtra("table");
+
+        // zakaldamy ze zawsze sa 3 itemy ( bedzie mozna to zmienic)
+        etMain.setHint(keys[0]);
+        etSecond.setHint(keys[1]);
+        etThird.setHint(keys[2]);
 
     }
 
@@ -56,6 +59,11 @@ public class AddItemActivity extends Activity {
      */
     private void concfrim() {
         // TODO implement adding item to  database
+        ContentValues cv = new ContentValues();
+        cv.put(keys[0],etMain.getText().toString());
+        cv.put(keys[1],etSecond.getText().toString());
+        cv.put(keys[2],etThird.getText().toString());
+        DatabaseAccess.getInstance(this).insert(table,cv);
         setResult(Activity.RESULT_OK);
         finish();
     }

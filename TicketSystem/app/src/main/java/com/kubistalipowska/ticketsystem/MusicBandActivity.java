@@ -1,12 +1,9 @@
 package com.kubistalipowska.ticketsystem;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -39,7 +36,8 @@ public class MusicBandActivity extends Activity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     ExpandableListAdapter listAdapter;
-
+    String current_table;
+    TabHost host;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +87,7 @@ public class MusicBandActivity extends Activity {
             }
         });
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
         //Tab 1
@@ -98,8 +96,7 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Crew");
         host.addTab(spec);
 
-        crewListView.setAdapter(new TicketAdapter(this, new String[]{"crew1",
-                "crew2"}));
+   //     crewListView.setAdapter(new CustomAdapter(this, new String[]{"crew1", "crew2"}));
 
         //Tab 2
         spec = host.newTabSpec("Concerts");
@@ -107,8 +104,7 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Concerts");
         host.addTab(spec);
 
-        concertsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
-                "data2"}));
+        //concertsListView.setAdapter(new CustomAdapter(this, new String[]{"data1", "data2"}));
 
         //Tab 3
         spec = host.newTabSpec("Playlists");
@@ -116,7 +112,7 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Playlists");
         host.addTab(spec);
 
-     /*   playlistsListView.setAdapter(new TicketAdapter(this, new String[]{"data1",
+     /*   playlistsListView.setAdapter(new CustomAdapter(this, new String[]{"data1",
                 "data2"})); */
 
         //Tab 4
@@ -146,15 +142,27 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Songs");
         host.addTab(spec);
 
-        songsListView.setAdapter(new TicketAdapter(this, new String[]{"song",
-                "song"}));
+        songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));
+
+   //     songsListView.getAdapter().notify();
 
 
     }
 
     private void addItem(View view) {
+        String table = "";
+        switch(host.getCurrentTab()){
+            case 0:
+                break;
+            case 4:
+                table = DatabaseAccess.TABLE_SONGS;
+                break;
+        }
                 Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
-                intent.putExtra("type",view.getId());
+              //  intent.putExtra("type",view.getId());
+                intent.putExtra("table",table);
+                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_SONG_NAME,DatabaseAccess.FIELD_SOND_LENGTH,DatabaseAccess.FIELD_GENRE});
                 startActivityForResult(intent, REQUEST_ADDITEM);
     }
 
