@@ -96,6 +96,9 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Crew");
         host.addTab(spec);
 
+        crewListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                .getItems(DatabaseAccess.TABLE_CREW), DatabaseAccess.TABLE_CREW));
+
    //     crewListView.setAdapter(new CustomAdapter(this, new String[]{"crew1", "crew2"}));
 
         //Tab 2
@@ -103,6 +106,9 @@ public class MusicBandActivity extends Activity {
         spec.setContent(R.id.tabConcerts);
         spec.setIndicator("Concerts");
         host.addTab(spec);
+
+        concertsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                .getItems(DatabaseAccess.TABLE_CONCERTS), DatabaseAccess.TABLE_CONCERTS));
 
         //concertsListView.setAdapter(new CustomAdapter(this, new String[]{"data1", "data2"}));
 
@@ -121,7 +127,8 @@ public class MusicBandActivity extends Activity {
         spec.setIndicator("Plates");
         host.addTab(spec);
 
-
+        songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));
         // get the listview
         platesListView = (ExpandableListView) findViewById(R.id.expandableListViewPlayLists);
 
@@ -133,36 +140,48 @@ public class MusicBandActivity extends Activity {
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
         // setting list adapter
-        platesListView.setAdapter(listAdapter);
+        platesListView.setAdapter(listAdapter);//plyty
 
 
         //Tab 5
-        spec = host.newTabSpec("Songs");
+        spec = host.newTabSpec("Songs");//crew, songs, concert
         spec.setContent(R.id.tabSongs);
         spec.setIndicator("Songs");
         host.addTab(spec);
 
         songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
-                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));
+                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));//tutaj
 
    //     songsListView.getAdapter().notify();
 
 
     }
 
-    private void addItem(View view) {
+    private void addItem(View view) {//nic nie rob
         String table = "";
+        Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
         switch(host.getCurrentTab()){
             case 0:
                 break;
-            case 4:
-                table = DatabaseAccess.TABLE_SONGS;
+            case 1:
+                table = DatabaseAccess.TABLE_CREW;
+                intent.putExtra("table",table);
+                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_CREW_NAME,DatabaseAccess.FIELD_CREW_SURNAME,DatabaseAccess.FIELD_INSTRUMENT});
                 break;
-        }
-                Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
-              //  intent.putExtra("type",view.getId());
+            case 2:
+                table = DatabaseAccess.TABLE_CONCERTS;
+                intent.putExtra("table",table);
+                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_CONCERTS_DATE,DatabaseAccess.FIELD_CONCERTS_PLACE_ADDRESS,DatabaseAccess.FIELD_BAND_NAME});
+                break;
+            case 4:
+                table = DatabaseAccess.TABLE_SONGS;//otwarta aktualnie
                 intent.putExtra("table",table);
                 intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_SONG_NAME,DatabaseAccess.FIELD_SOND_LENGTH,DatabaseAccess.FIELD_GENRE});
+                break;
+        }
+
+              //  intent.putExtra("type",view.getId());
+
                 startActivityForResult(intent, REQUEST_ADDITEM);
     }
 

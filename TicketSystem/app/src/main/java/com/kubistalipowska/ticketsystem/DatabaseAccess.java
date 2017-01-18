@@ -9,6 +9,7 @@ package com.kubistalipowska.ticketsystem;
         import com.kubistalipowska.ticketsystem.entities.ItemEntity;
 
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.List;
 
 public class DatabaseAccess {
@@ -22,6 +23,15 @@ public class DatabaseAccess {
     public static final String FIELD_SONG_NAME = "NAZWA";
     public static final String FIELD_SOND_LENGTH = "DLUGOSC";
     public static final String FIELD_GENRE = "GATUNEK";
+    public static final String TABLE_CREW = "MUZYK";
+    public static final String FIELD_CREW_NAME = "IMIE";
+    public static final String FIELD_CREW_SURNAME = "NAWISKO";
+    public static final String TABLE_CONCERTS = "KONCERT";
+    public static final String FIELD_CONCERTS_DATE = "DATA";
+    public static final String FIELD_CONCERTS_PLACE_ADDRESS = "ADRES";
+    public static final String TABLE_BAND = "ZESPOL";
+    public static final String FIELD_BAND_NAME = "NAZWA";
+    public static final String FIELD_INSTRUMENT = "INSTRUMENT";
 
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
