@@ -1,5 +1,6 @@
 package com.kubistalipowska.ticketsystem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,64 +17,106 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.kubistalipowska.ticketsystem.entities.AlbumEntity;
+import com.kubistalipowska.ticketsystem.entities.ItemEntity;
+import com.kubistalipowska.ticketsystem.entities.SongEntity;
+
 public class ExpandableListAdapter  extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<String> _listDataHeader; // header titles
+    private ArrayList<AlbumEntity> data; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
+    private HashMap<String, ArrayList<SongEntity>> songs;
+    public ExpandableListAdapter instance;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+    public ExpandableListAdapter(Context context, ArrayList<AlbumEntity> data,
+                                 HashMap<String, ArrayList<SongEntity>> songs) {
+            ArrayList<SongEntity> list  ;
+           for(String key: songs.keySet()) {
+                  list = songs.get(key);
+                  list.add(new SongEntity(key,0,"STUB","STUB"))            ;
+           }
         this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        this.songs = songs;
+        this.data = data;
+        instance =this;
+    }
+
+    public void putSong(SongEntity song,String album){
+               ArrayList<SongEntity> list =   songs.get(album);
+        SongEntity stub =    list.get(list.size() - 1);
+        list.remove(list.size() - 1);
+        list.add(song);
+        list.add(stub);
+        notifyDataSetChanged();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+          AlbumEntity album = (AlbumEntity)this.data.get(groupPosition);
+        return this.songs.get(album.getName()).get(childPosititon);
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
+    public long getChildId(int getChildrenCountv, int childPosition) {
         return childPosition;
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final SongEntity song = (SongEntity)getChild(groupPosition, childPosition);
+        LayoutInflater infalInflater;
 
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.expandable_list_item, null);
+        if (convertView == null || childPosition == getChildrenCount(groupPosition) -2) {
+            if (childPosition == getChildrenCount(groupPosition)- 1) {
+                infalInflater   = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.expandable_list_add_item, null);
+                Button button = (Button) convertView
+                        .findViewById(R.id.expandalbe_list_add_song);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       AlbumEntity album  = (AlbumEntity)getGroup(groupPosition);
+                        SelectSongDialog cdd = new SelectSongDialog(_context,album.getName(),instance);
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }
+                });
+
+            }else {
+                infalInflater   = (LayoutInflater) this._context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.expandable_list_item, null);
+                TextView txtListChild = (TextView) convertView
+                        .findViewById(R.id.tv_expandalbe_list_item);
+
+                txtListChild.setText(song.getName());
+            }
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.tv_expandalbe_list_item);
 
-        txtListChild.setText(childText);
         return convertView;
     }
 
+
+
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        AlbumEntity album = (AlbumEntity)this.data.get(groupPosition);
+        return this.songs.get(album.getName()).size() ;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.data.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.data.size();
     }
 
     @Override
@@ -84,7 +127,8 @@ public class ExpandableListAdapter  extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+        AlbumEntity album  =  (AlbumEntity)getGroup(groupPosition);
+        String headerTitle = album.getName();
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -47,7 +47,7 @@ public class AddItemActivity extends Activity {
 
         table  = getIntent().getStringExtra("table");
 
-        // zakaldamy ze zawsze sa 3 itemy ( bedzie mozna to zmienic)
+        // zakaldamy ze zawsze sa 3 itemy ( bedzie mozna to zmienic
         etMain.setHint(keys[0]);
         etSecond.setHint(keys[1]);
         etThird.setHint(keys[2]);
