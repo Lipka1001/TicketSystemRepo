@@ -9,7 +9,8 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TabHost;
 
-import java.util.ArrayList;
+import com.kubistalipowska.ticketsystem.entities.SongEntity;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,20 +25,19 @@ public class MusicBandActivity extends Activity {
     @BindView(R.id.btn_back_log_out) Button btnLogOut;
     @BindView(R.id.listViewCrew) ListView crewListView;
     @BindView(R.id.listViewConcerts) ListView concertsListView;
-    @BindView(R.id.expandableListViewPlayLists) ExpandableListView playlistsListView;
     @BindView(R.id.listViewSongs) ListView songsListView;
     @BindView(R.id.expandableListViewPlates) ExpandableListView platesListView;
     @BindView(R.id.btn_add_plate) Button btnAddPlate;
     @BindView(R.id.btn_add_crew) Button btnAddCrew;
-    @BindView(R.id.btn_add_playlist) Button btnAddPlaylist;
     @BindView(R.id.btn_add_song) Button btnAddSong;
     @BindView(R.id.btn_add_concert) Button btnAddConcert;
 
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    List<SongEntity> listDataHeader;
+    HashMap<String, List<SongEntity>> listDataChild;
     ExpandableListAdapter listAdapter;
     String current_table;
     TabHost host;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +59,6 @@ public class MusicBandActivity extends Activity {
             }
         });
 
-        btnAddPlaylist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItem(view);
-            }
-        });
 
         btnAddSong.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,38 +106,29 @@ public class MusicBandActivity extends Activity {
 
         //concertsListView.setAdapter(new CustomAdapter(this, new String[]{"data1", "data2"}));
 
-        //Tab 3
-        spec = host.newTabSpec("Playlists");
-        spec.setContent(R.id.tabPlaylists);
-        spec.setIndicator("Playlists");
-        host.addTab(spec);
 
      /*   playlistsListView.setAdapter(new CustomAdapter(this, new String[]{"data1",
                 "data2"})); */
 
-        //Tab 4
+        //Tab 3
         spec = host.newTabSpec("Plates");
         spec.setContent(R.id.tabPlate);
         spec.setIndicator("Plates");
         host.addTab(spec);
 
-        songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
-                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));
-        // get the listview
-        platesListView = (ExpandableListView) findViewById(R.id.expandableListViewPlayLists);
 
         // preparing list data
-        prepareListData();
+       prepareListData();
 
 
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapter(this, DatabaseAccess.getInstance(this).getAlbums(), DatabaseAccess.getInstance(this).getSongs());
 
         // setting list adapter
         platesListView.setAdapter(listAdapter);//plyty
 
 
-        //Tab 5
+        //Tab 4
         spec = host.newTabSpec("Songs");//crew, songs, concert
         spec.setContent(R.id.tabSongs);
         spec.setIndicator("Songs");
@@ -162,6 +147,7 @@ public class MusicBandActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), AddItemActivity.class);
         switch(host.getCurrentTab()){
             case 0:
+
                 break;
             case 1:
                 table = DatabaseAccess.TABLE_CREW;
@@ -173,10 +159,10 @@ public class MusicBandActivity extends Activity {
                 intent.putExtra("table",table);
                 intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_CONCERTS_DATE,DatabaseAccess.FIELD_CONCERTS_PLACE_ADDRESS,DatabaseAccess.FIELD_BAND_NAME});
                 break;
-            case 4:
+            case 3:
                 table = DatabaseAccess.TABLE_SONGS;//otwarta aktualnie
                 intent.putExtra("table",table);
-                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_SONG_NAME,DatabaseAccess.FIELD_SOND_LENGTH,DatabaseAccess.FIELD_GENRE});
+                intent.putExtra("keys",new String[]{DatabaseAccess.FIELD_SONG_NAME,DatabaseAccess.FIELD_SONG_LENGTH,DatabaseAccess.FIELD_GENRE});
                 break;
         }
 
@@ -195,8 +181,26 @@ public class MusicBandActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ADDITEM) {
+        if (requestCode ==REQUEST_ADDITEM ) {
             if (resultCode == RESULT_OK) {
+                switch (host.getCurrentTab()) {
+                    case 0:
+                        crewListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                                .getItems(DatabaseAccess.TABLE_CREW), DatabaseAccess.TABLE_CREW));
+                        break;
+                    case 1:
+                        concertsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                                .getItems(DatabaseAccess.TABLE_CONCERTS), DatabaseAccess.TABLE_CONCERTS));
+                        break;
+                    case 2:
+                        platesListView.setAdapter(listAdapter);//plyty
+                        break;
+
+                    case 3:
+                        songsListView.setAdapter(new CustomAdapter(this, DatabaseAccess.getInstance(this)
+                                .getItems(DatabaseAccess.TABLE_SONGS), DatabaseAccess.TABLE_SONGS));//tutaj
+                        break;
+                }
             }
         }
     }
@@ -205,7 +209,7 @@ public class MusicBandActivity extends Activity {
   * Preparing the list data
   */
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
+     /*   listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
@@ -240,6 +244,6 @@ public class MusicBandActivity extends Activity {
 
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(2), comingSoon); */
     }
 }
